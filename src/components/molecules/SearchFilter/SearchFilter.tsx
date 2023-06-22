@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
-
+import { useState, ChangeEvent } from 'react';
 import Search from '../../atoms/Search';
+
 import {
   StyledSearchContainer,
   StyledSearchFilterWrapper,
@@ -8,63 +8,34 @@ import {
   StyledResults,
 } from './styles';
 
-interface IItem {
-  id: string | number;
-  value: string;
-  beforeValue?: any;
-  type: string;
+interface ISearchProps {
+  onSearch: (query: string) => void;
+  resultsCount: number;
 }
 
-export interface ISearchFilterData {
-  title: string;
-  types: string[];
-  items: IItem[];
-}
+const SearchFilter = ({ onSearch, resultsCount }: ISearchProps) => {
+  const [searchValue, setSearchValue] = useState('');
 
-// interface ISearchFilterProps {
-//   data: ISearchFilterData;
-//   color?: COLOR;
-//   itemsPerPage?: number;
-// }
-
-const SearchFilter = () => {
-  // const { title, types, items } = data;
-
-  // const [displayData, setDisplayData] = useState<IItem[]>([]);
-  // const [searchValue, setSearchValue] = useState('');
-
-  // useEffect(() => {
-  //   if (searchValue) {
-  //     const itemsAfterSearch = items.filter((item) =>
-  //       item.value.toLowerCase().includes(searchValue.toLocaleLowerCase())
-  //     );
-
-  //     setDisplayData(itemsAfterSearch);
-  //   } else {
-  //     setDisplayData(items);
-  //   }
-  // }, [items, searchValue]);
-
-  // const filterItems = (filterBy: string) => {
-  //   if (searchValue) {
-  //     const itemsAfterSearch = items.filter((item) =>
-  //       item.value.toLowerCase().includes(searchValue.toLocaleLowerCase())
-  //     );
-
-  //     setDisplayData(itemsAfterSearch);
-  //   } else {
-  //     setDisplayData(items);
-  //   }
-  // };
+  const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
+    const query = event.target.value;
+    setSearchValue(query);
+    onSearch(query);
+  };
 
   return (
     <StyledSearchFilterWrapper>
       <StyledTitleContainer>
-        <h3>SpaceX Rockets</h3>
+        <h3>SpaceX rockets</h3>
       </StyledTitleContainer>
-      <StyledResults> 3 Results</StyledResults>
+      <StyledResults>{resultsCount} Results</StyledResults>
       <StyledSearchContainer>
-        <Search />
+        <Search
+          type='text'
+          value={searchValue}
+          setvalue={setSearchValue}
+          placeholder='Search'
+          onChange={handleSearch}
+        />
       </StyledSearchContainer>
     </StyledSearchFilterWrapper>
   );

@@ -1,54 +1,52 @@
-import { useEffect, useState } from 'react';
-
-import { API } from '../../../shared/api/index.ts';
 import { IRocket } from '../../../shared/api/types.ts';
 import {
   StyledTableWrapper,
   StyledLablesWrapper,
   StyledInfo,
   StyledSingleInfo,
-  StyledMeasurements,
+  StyledRocketsName,
+  StyledMeasurementsCostPerLaunch,
+  StyledMeasurementsMass,
+  StyledMeasurementsHeight,
+  StyledMeasurementsDiameter,
 } from './styles.ts';
 
-function RocketsTable() {
-  const [rockets, setRockets] = useState<IRocket[]>([]);
+interface IRocketsTableProps {
+  rockets: IRocket[];
+}
 
-  useEffect(() => {
-    API.getRockets()
-      .then((data) => {
-        setRockets(data);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-  }, []);
-
-  // const costPerLaunch = { };
-  // const formattedNumber = costPerLaunch.toLocaleString();
-  // const formattedCostPerLauch = `${formattedNumber.replace(/,/g, ' ')}`;
-
+const RocketsTable = ({ rockets }: IRocketsTableProps) => {
   return (
     <StyledTableWrapper>
       <StyledLablesWrapper>
-        <span>Rocket Name</span>
-        <span>Diameter</span>
-        <span>Height</span>
-        <span>Mass</span>
-        <span>Cost per launch</span>
+        <div>Rocket Name</div>
+        <div>Diameter</div>
+        <div>Height</div>
+        <div>Mass</div>
+        <div>Cost per launch</div>
       </StyledLablesWrapper>
       <StyledInfo>
         {rockets.map((rocket) => (
           <StyledSingleInfo key={rocket.id}>
-            <span>{rocket.rocket_name}</span>
-            <StyledMeasurements>{rocket.diameter.meters}m</StyledMeasurements>
-            <StyledMeasurements>{rocket.height.meters}m</StyledMeasurements>
-            <StyledMeasurements>{rocket.mass.kg}kg</StyledMeasurements>
-            <StyledMeasurements>${rocket.cost_per_launch}</StyledMeasurements>
+            <StyledRocketsName>{rocket.rocket_name}</StyledRocketsName>
+            <StyledMeasurementsDiameter>
+              {rocket.diameter.meters}m
+            </StyledMeasurementsDiameter>
+            <StyledMeasurementsHeight>
+              {rocket.height.meters}m
+            </StyledMeasurementsHeight>
+            <StyledMeasurementsMass>{rocket.mass.kg}kg</StyledMeasurementsMass>
+            <StyledMeasurementsCostPerLaunch>
+              $
+              {rocket.cost_per_launch
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ' ')}
+            </StyledMeasurementsCostPerLaunch>
           </StyledSingleInfo>
         ))}
       </StyledInfo>
     </StyledTableWrapper>
   );
-}
+};
 
 export default RocketsTable;

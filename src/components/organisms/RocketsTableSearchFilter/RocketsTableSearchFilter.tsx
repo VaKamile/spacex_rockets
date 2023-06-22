@@ -1,41 +1,48 @@
-import { useQuery } from 'react-query';
+import { useState, useEffect } from 'react';
 import { API } from '../../../shared/api';
 import SearchFilter from '../../molecules/SearchFilter';
 import RocketsTable from '../../molecules/RocketsTable';
-import { COLOR } from '../../../shared/theme/types';
 import { IRocket } from '../../../shared/api/types';
-import { ISearchFilterData } from '../../molecules/SearchFilter/SearchFilter';
 
 const RocketsTableSearchFilter = () => {
-  // const { data, isLoading, isError } = useQuery({
-  //   queryKey: ['rockets'],
-  //   queryFn: () => API.getRockets(),
-  // });
+  const [rockets, setRockets] = useState<IRocket[]>([]);
+  const [mappedRockets, setMappedRockets] = useState<IRocket[]>([]);
 
-  // if (isLoading) {
-  //   return <p>Loading...</p>;
-  // }
+  useEffect(() => {
+    API.getRockets()
+      .then((data) => {
+        setRockets(data);
+        setMappedRockets(data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }, []);
 
-  // if (isError) {
-  //   return <p>Error...</p>;
-  // }
-
-  // const mappedRockets: ISearchFilterData = {
-  //   title: 'Rockets',
-  //   types: Array.from(
-  //     new Set(data.map((rocket: IRocket) => rocket.diameter.meters))
-  //   ),
-  //   items: data.map((rocket: IRocket) => ({
-  //     id: rocket.id?.toString() as string,
-  //     value: rocket.rocket_name,
-  //     type: rocket.mass.kg,
-  //   })),
-  // };
+  const searchResults = (query: string) => {
+    const filteredResults = rockets.filter((rocket) =>
+      [
+        rocket.rocket_name.toLowerCase(),
+        rocket.diameter.meters.toString(),
+        rocket.height.meters.toString(),
+        rocket.mass.kg.toString(),
+        rocket.cost_per_launch.toString(),
+      ].some((value) => value.includes(query.toLowerCase()))
+    );
+    setMappedRockets(filteredResults);
+  };
 
   return (
     <div>
-      <SearchFilter />
-      <RocketsTable />
+      <SearchFilter
+        onSearch={searchResults}
+        resultsCount={mappedRockets.length}
+      />
+      {mappedRockets.length === 0 ? (
+        <p>No results found.</p>
+      ) : (
+        <RocketsTable rockets={mappedRockets} />
+      )}
     </div>
   );
 };
