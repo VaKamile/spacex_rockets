@@ -1,12 +1,8 @@
-import RocketsTable from './components/molecules/RocketsTable';
-import SearchFilter from './components/molecules/SearchFilter';
-
+import RocketsTableSearchFilter from './components/organisms/RocketsTableSearchFilter';
 function App() {
   return (
     <div>
-      <SearchFilter data={ISearchFilterData} />
-      <h1>Rocket Data</h1>
-      <RocketsTable />
+      <RocketsTableSearchFilter />
     </div>
   );
 }
