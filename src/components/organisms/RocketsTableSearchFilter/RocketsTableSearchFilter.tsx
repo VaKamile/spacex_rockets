@@ -3,6 +3,7 @@ import { API } from '../../../shared/api';
 import SearchFilter from '../../molecules/SearchFilter';
 import RocketsTable from '../../molecules/RocketsTable';
 import { IRocket } from '../../../shared/api/types';
+import { StyledSearchFilter } from './styles';
 
 const RocketsTableSearchFilter = () => {
   const [rockets, setRockets] = useState<IRocket[]>([]);
@@ -39,7 +40,7 @@ const RocketsTableSearchFilter = () => {
         resultsCount={mappedRockets.length}
       />
       {mappedRockets.length === 0 ? (
-        <p>No results found.</p>
+        <StyledSearchFilter>No results found.</StyledSearchFilter>
       ) : (
         <RocketsTable rockets={mappedRockets} />
       )}
