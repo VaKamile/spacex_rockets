@@ -30,12 +30,12 @@ const RocketsTable = ({ rockets }: IRocketsTableProps) => {
           <StyledSingleInfo key={rocket.id}>
             <StyledRocketsName>{rocket.rocket_name}</StyledRocketsName>
             <StyledMeasurementsDiameter>
-              {rocket.diameter.meters}m
+              {rocket.diameter.meters}
             </StyledMeasurementsDiameter>
             <StyledMeasurementsHeight>
-              {rocket.height.meters}m
+              {rocket.height.meters}
             </StyledMeasurementsHeight>
-            <StyledMeasurementsMass>{rocket.mass.kg}kg</StyledMeasurementsMass>
+            <StyledMeasurementsMass>{rocket.mass.kg}</StyledMeasurementsMass>
             <StyledMeasurementsCostPerLaunch>
               $
               {rocket.cost_per_launch
