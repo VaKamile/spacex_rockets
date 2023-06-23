@@ -16,7 +16,7 @@ interface ISearchProps {
 const SearchFilter = ({ onSearch, resultsCount }: ISearchProps) => {
   const [searchValue, setSearchValue] = useState('');
 
-  const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
+  const changedSearch = (event: ChangeEvent<HTMLInputElement>) => {
     const query = event.target.value;
     setSearchValue(query);
     onSearch(query);
@@ -34,7 +34,7 @@ const SearchFilter = ({ onSearch, resultsCount }: ISearchProps) => {
           value={searchValue}
           setvalue={setSearchValue}
           placeholder='Search'
-          onChange={handleSearch}
+          onChange={changedSearch}
         />
       </StyledSearchContainer>
     </StyledSearchFilterWrapper>
