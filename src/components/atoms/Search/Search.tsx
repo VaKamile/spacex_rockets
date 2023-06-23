@@ -4,18 +4,11 @@ import { StyledInputWrapper, StyledIcon, StyledInput } from './style';
 interface IInputProps {
   type: 'text' | 'number';
   value: string | number;
-  setvalue: (value: string) => void;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
 }
 
-const Search = ({
-  onChange,
-  type,
-  value,
-  setvalue,
-  placeholder,
-}: IInputProps) => {
+const Search = ({ onChange, type, value, placeholder }: IInputProps) => {
   const inputWrapperRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
