@@ -7,13 +7,13 @@ import { StyledSearchFilter } from './styles';
 
 const RocketsTableSearchFilter = () => {
   const [rockets, setRockets] = useState<IRocket[]>([]);
-  const [mappedRockets, setMappedRockets] = useState<IRocket[]>([]);
+  const [filteredRockets, setfilteredRockets] = useState<IRocket[]>([]);
 
   useEffect(() => {
     API.getRockets()
       .then((data) => {
         setRockets(data);
-        setMappedRockets(data);
+        setfilteredRockets(data);
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -30,19 +30,19 @@ const RocketsTableSearchFilter = () => {
         rocket.cost_per_launch.toString(),
       ].some((value) => value.includes(query.toLowerCase()))
     );
-    setMappedRockets(filteredResults);
+    setfilteredRockets(filteredResults);
   };
 
   return (
     <div>
       <SearchFilter
         onSearch={searchResults}
-        resultsCount={mappedRockets.length}
+        resultsCount={filteredRockets.length}
       />
-      {mappedRockets.length === 0 ? (
+      {filteredRockets.length === 0 ? (
         <StyledSearchFilter>No results found.</StyledSearchFilter>
       ) : (
-        <RocketsTable rockets={mappedRockets} />
+        <RocketsTable rockets={filteredRockets} />
       )}
     </div>
   );
