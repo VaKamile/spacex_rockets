@@ -7,7 +7,14 @@ const httpClient = axios.create({
 });
 
 httpClient.interceptors.response.use(
-  (response) => response.data,
+  (response) => {
+    response.data.forEach((element) => {
+      element.diameter.meters = `${element.diameter.meters}m`;
+      element.height.meters = `${element.height.meters}m`;
+      element.mass.kg = `${element.mass.kg}kg`;
+    });
+    return response.data;
+  },
   (error) => Promise.reject(error)
 );
 

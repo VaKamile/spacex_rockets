@@ -13,7 +13,7 @@ const Search = ({
   onChange,
   type,
   value,
-  setvalue,
+
   placeholder,
 }: IInputProps) => {
   const inputWrapperRef = useRef<HTMLDivElement | null>(null);
